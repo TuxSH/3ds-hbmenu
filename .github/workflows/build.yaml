@@ -4,8 +4,6 @@ on:
   push: # Note: will run on tags push too
   pull_request:
   workflow_dispatch: # manual run
-  release:
-    types: [published]
 
 jobs:
   build:
@@ -36,27 +34,3 @@ jobs:
         # For publish_release this is presented as boot.3dsx however
         name: 3ds-hbmenu-${{ steps.verstring.outputs.VERSTRING }}
         path: boot.3dsx
-
-  publish_release:
-    name: Publish release archive (only on release)
-    if: github.event_name == 'release'
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      VERSTRING: ${{ needs.build.outputs.VERSTRING }}
-    steps:
-    - name: Download cacert.pem
-      run: mkdir -p config/ssl && curl -sSfL "https://curl.se/ca/cacert.pem" -o config/ssl/cacert.pem
-    - name: Download build artifact from previous job
-      uses: actions/download-artifact@v4
-      with:
-        name: 3ds-hbmenu-${{ env.VERSTRING }}
-    - name: Bundle release archive
-      run: zip "3ds-hbmenu-$VERSTRING.zip" -r config boot.3dsx
-    - name: Publish release archive
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        files: "./3ds-hbmenu-${{ env.VERSTRING }}.zip"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
