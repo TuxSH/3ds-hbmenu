@@ -4,6 +4,7 @@ on:
   push: # Note: will run on tags push too
   pull_request:
   workflow_dispatch: # manual run
+  workflow_call:
 
 jobs:
   build:
