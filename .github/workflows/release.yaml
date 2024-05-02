@@ -6,7 +6,8 @@ on:
 
 jobs:
   build:
-    uses: TuxSH/3ds-hbmenu/.github/workflows/build.yml@v1
+    name: Build boot.3dsx
+    uses: ./.github/workflows/build.yaml
   publish_release:
     name: Publish release archive
     needs: build
