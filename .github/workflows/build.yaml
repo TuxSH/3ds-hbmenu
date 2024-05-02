@@ -18,7 +18,9 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
       with:
-        submodules: recursive
+        submodules: recursive # we currently don't use submodules, but just in case...
+        fetch-depth: 0 # deep clone (for git describe)
+        fetch-tags: true
     - name: Set version string
       id: verstring
       run: |
