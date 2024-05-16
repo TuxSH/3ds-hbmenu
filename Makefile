@@ -6,6 +6,8 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
+# foo
+
 TOPDIR ?= $(CURDIR)
 include $(DEVKITARM)/3ds_rules
 
